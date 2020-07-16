@@ -2,18 +2,21 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-  name: {type : Schema.Types.Mixed},
+  username: {type : Schema.Types.Mixed},
   money: {type : Schema.Types.Mixed},
   phone: {type : Schema.Types.Mixed},
   email: {type : Schema.Types.Mixed},
-  location: {type : Schema.Types.Mixed},
-  productsTag: [
+  streetAddress: {type : Schema.Types.Mixed},
+  latitude: Number,
+  longitude: Number,
+  productTags: [
     {
       name: String,
-      dateRegistredUnixepoch: {type: Number, default: parseInt(new Date()/1000)},
-      dateISO: {type: Number, default: new Date()}
+      dateUnixEpoch: {type: Number, default: parseInt(new Date()/1000)},
+      dateISO: {type: Date, default: new Date()}
     }
-  ]
+  ],
+  cratedUnixEpoch: {type: Number, default: parseInt(new Date()/1000)}
 },
 {timestamps: true})
 
