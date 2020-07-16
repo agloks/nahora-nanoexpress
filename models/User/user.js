@@ -1,5 +1,8 @@
 const mongoose = require("mongoose")
+const moment = require("moment")
 const Schema = mongoose.Schema
+
+const getUnixEpoch = () => moment.utc().unix()
 
 const userSchema = new Schema({
   username: {type : Schema.Types.Mixed},
@@ -12,11 +15,11 @@ const userSchema = new Schema({
   productTags: [
     {
       name: String,
-      dateUnixEpoch: {type: Number, default: parseInt(new Date()/1000)},
-      dateISO: {type: Date, default: new Date()}
+      dateUnixEpoch: {type: Number, default: getUnixEpoch}, //utc in seconds scala
+      dateISO: {type: Date, default: new Date}
     }
   ],
-  cratedUnixEpoch: {type: Number, default: parseInt(new Date()/1000)}
+  cratedUnixEpoch: {type: Number, default: getUnixEpoch} //utc in seconds scala
 },
 {timestamps: true})
 
