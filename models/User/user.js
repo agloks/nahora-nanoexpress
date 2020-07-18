@@ -12,17 +12,7 @@ const userSchema = new Schema({
   streetAddress: {type : Schema.Types.Mixed},
   latitude: Number,
   longitude: Number,
-  productTags: [
-    { type: new Schema(
-      {
-      name: String,
-      timeToQuery: {type: Number, default: 30},
-      createdAtUnixEpoch: {type: Number, default: getUnixEpoch}, //utc in seconds scala
-      updatedAtUnixEpoch: {type: Number, default: getUnixEpoch}
-      },
-      {timestamps: true}
-    ) }
-  ],
+  productTagsRef: [{type: Schema.Types.ObjectId, ref: "products"}],
   updatedAtUnixEpoch: {type: Number, default: getUnixEpoch},
   cratedAtUnixEpoch: {type: Number, default: getUnixEpoch} //utc in seconds scala
 },

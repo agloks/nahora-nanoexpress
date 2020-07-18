@@ -3,34 +3,45 @@ require('dotenv').config()
 const mongoose = require("mongoose")
 const faker = require("faker")
 const userModel = require("./user")
+const productModel = require("../Product/product")
 
-mongoose
-  .connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true })
-  .then(x => { console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)})
-  .catch(err => { console.error('Error connecting to mongo', err)});
+// mongoose
+//   .connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(x => { console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)})
+//   .catch(err => { console.error('Error connecting to mongo', err)});
 
-const randomProductTags = () => {
-  const times = parseInt(Math.random() * (8 - 2) + 2)
-  let items = []
+// const randInt = (min, max) => parseInt(Math.random() * (max - min) + min)
 
-  for(let x = 0; x < times; x++)
-    items.push({ name: faker.hacker.noun(), timeToQuery: parseInt(Math.random() * (60 - 2) + 2) })
+const fillProductByUser = async(user) => {
+  const id = user._id
 
-  return items
+  const products = await productModel.find({userRef: id})
+  if(!products.length)
+    return;
+
+  for(product of products) 
+    await user.productTagsRef.push(product._id)
+  
+  await user.save()
 }
 
-(async () => {
-  let times = 1020
-  while(times--) {
-    const result = await userModel.create({
+const seedUserWithoutRefs= async() => {
+  // let times = 1020
+  // while(times--) {
+    const user = await userModel.create({
       name: faker.name.findName(),
       phone: faker.phone.phoneNumber(),
       money: faker.random.number(),
       email: faker.internet.email(),
       streetAddress: faker.address.country(),
-      productTags: randomProductTags()
     })
+  // }
 
-    console.log(result)
-  }  
-})()
+    // console.log(user)
+} 
+
+// (async() => {
+//   await seedUserWithoutRefs()
+// })()
+
+module.exports = {seedUserWithoutRefs, fillProductByUser, userModel}
