@@ -13,13 +13,17 @@ const userSchema = new Schema({
   latitude: Number,
   longitude: Number,
   productTags: [
-    {
+    { type: new Schema(
+      {
       name: String,
-      dateUnixEpoch: {type: Number, default: getUnixEpoch}, //utc in seconds scala
-      dateISO: {type: Date, default: new Date}
-    }
+      createdAtUnixEpoch: {type: Number, default: getUnixEpoch}, //utc in seconds scala
+      updatedAtUnixEpoch: {type: Number, default: getUnixEpoch}
+      },
+      {timestamps: true}
+    ) }
   ],
-  cratedUnixEpoch: {type: Number, default: getUnixEpoch} //utc in seconds scala
+  updatedAtUnixEpoch: {type: Number, default: getUnixEpoch},
+  cratedAtUnixEpoch: {type: Number, default: getUnixEpoch} //utc in seconds scala
 },
 {timestamps: true})
 

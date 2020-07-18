@@ -12,7 +12,7 @@ mongoose
   .then(x => { console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)})
   .catch(err => { console.error('Error connecting to mongo', err)});
 
-const minuteToSeconds = (minute) => (minute * 60)
+const minuteToSeconds = (minute) => (minute * 60);
 const customDebugTime = (unixEpoch) => {
   const utcDateFromParam = moment.unix(unixEpoch).utc()
   const localDateFromParam = moment.unix(unixEpoch).local()
@@ -45,6 +45,10 @@ const printPromises = (promises) => {
   return status
 }
 
+async function updateTagUsers(users) {
+  console.log(users.length)
+};
+
 async function* takeFromDB() {
   console.log("started?")
   //utc in seconds scala
@@ -54,8 +58,8 @@ async function* takeFromDB() {
   //begin time to look
   const beginTime = actualTime - seconds
 
-  // const usersResult = await userModel.find({cratedUnixEpoch: {$gte: beginTime}}).limit(50)
-  const usersResult = await userModel.find().limit(6)
+  // const usersResult = await userModel.find({"productTags.updatedAtUnixEpoch": {$gte: beginTime}}).limit(50)
+  const usersResult = await userModel.find({"productTags.updatedAtUnixEpoch": 1595082222}).limit(6)
 
   // for(collection of usersResult) {
   //   customDebugTime(collection.cratedUnixEpoch)
@@ -68,14 +72,14 @@ async function* takeFromDB() {
   let maxCount = usersResult.length
   while(internCount < maxCount) {
     console.log(`[takeFromDB] internCount = ${internCount += 1}`)
-    // await _sleep(6000)
+    await _sleep(5000)
 
     // console.log(usersResult)
     // console.log(beginTime)
 
     yield usersResult.splice(0, 2)
   }
-}
+};
 
 /*
 TODO: 
@@ -93,11 +97,13 @@ async function* doAll() {
       return getPesquisa().catch(e => e) // Handling the error for each promise.
     })
     
+    console.log(promises)
     const result = await Promise.all(promises)
       .then(response => response)
       .catch(error => `Error in executing ${error}`)
 
     console.log(printPromises(result))
+    console.log(updateTagUsers(peopleForDoRequest.value))
     peopleForDoRequest = await genTakeFromDB.next()
 
     yield result
@@ -105,7 +111,7 @@ async function* doAll() {
 
   //case empty peopleForDoRequest as []
   return false
-}
+};
 
 // ---------------------------------------------------- MAIN ------------------------------------------------------------------------------ //
 

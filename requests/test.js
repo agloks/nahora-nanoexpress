@@ -1,11 +1,12 @@
+require('dotenv').config();
+
 // https://github.com/axios/axios
 const axios = require("axios")
 
 const BASEURL = "https://gateway.gr1d.io/sandbox/emtu/dados-abertos/v2"
-const XAPIKEY = "c10b971d-b55a-45dd-8b4e-29c8945ec5a0"
 
 const HEADERS = {
-  "x-api-key": XAPIKEY
+  "x-api-key": process.ENV.API_KEY
 }
 
 const PARAMS = {
