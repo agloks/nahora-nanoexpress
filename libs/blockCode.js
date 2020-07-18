@@ -37,7 +37,6 @@ async function block(condition, time, limit, callback = null, ...args) {
     let changeFunction = 0;
     
     const closureCond = condition();
-
     
     //numberRepetition is number total of repetion
     while(
@@ -46,7 +45,10 @@ async function block(condition, time, limit, callback = null, ...args) {
         ) {
         ++numberRepetition;
         let closureCondResponse = await closureCond();
-
+        
+        //case could be a generaton function
+        if(closureCondResponse.done !== undefined)
+            closureCondResponse = closureCondResponse.done
         // console.log(`*BLOCK*  block called ${numberRepetition} times`);
         
         if(Array.isArray(callback)) {
