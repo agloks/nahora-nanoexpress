@@ -1,28 +1,29 @@
 require('dotenv').config();
 
 // https://github.com/axios/axios
+
 const axios = require("axios")
-
-const BASEURL = "https://gateway.gr1d.io/sandbox/emtu/dados-abertos/v2"
-
-const HEADERS = {
-  "x-api-key": process.ENV.API_KEY
-}
+const qs = require("qs")
 
 const PARAMS = {
-  name: "São Paulo",
-  state: "SP"
+  fname: "Agloks",
+  sname: "Ana"
+}
+const BASEURL = `https://love-calculator.p.rapidapi.com/getPercentage?${qs.stringify(PARAMS)}`
+const HEADERS = {
+  "Accept": "application/json",
+  "x-rapidapi-host": "love-calculator.p.rapidapi.com",
+  "x-rapidapi-key": process.env.KEY_API
 }
 
 const baseAxios = axios.create({
   baseURL: BASEURL,
-  timeout: 30000, //ms
+  timeout: 10000, //ms
   headers: HEADERS,
-  // params: PARAMS
 });
 
 // (async () => {
-//   const result = await baseAxios.get("/linhas")
+//   const result = await baseAxios.get()
 //   console.log(result)
 // })()
 

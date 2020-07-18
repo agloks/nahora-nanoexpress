@@ -14,7 +14,7 @@ const randomProductTags = () => {
   let items = []
 
   for(let x = 0; x < times; x++)
-    items.push({ name: faker.hacker.noun() })
+    items.push({ name: faker.hacker.noun(), timeToQuery: parseInt(Math.random() * (60 - 2) + 2) })
 
   return items
 }

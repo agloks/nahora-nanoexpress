@@ -16,6 +16,7 @@ const userSchema = new Schema({
     { type: new Schema(
       {
       name: String,
+      timeToQuery: {type: Number, default: 30},
       createdAtUnixEpoch: {type: Number, default: getUnixEpoch}, //utc in seconds scala
       updatedAtUnixEpoch: {type: Number, default: getUnixEpoch}
       },
