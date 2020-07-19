@@ -9,7 +9,7 @@ const productSchema = new Schema({
   timeToQuery: {type: Number, default: 30},
   userRef: {type: Schema.Types.ObjectId, ref: "users"}, 
   updatedAtUnixEpoch: {type: Number, default: getUnixEpoch},
-  cratedAtUnixEpoch: {type: Number, default: getUnixEpoch} //utc in seconds scala
+  createdAtUnixEpoch: {type: Number, default: getUnixEpoch} //utc in seconds scala
 },
 {timestamps: true})
 

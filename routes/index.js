@@ -4,7 +4,6 @@
  -- When is the moment put production, remove user object at response case doesn't need.
 */
 
-
 const util = require("util")
 const userModel = require("../models/User/user")
 const app  = require("../app")

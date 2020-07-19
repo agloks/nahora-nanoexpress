@@ -16,7 +16,7 @@ const randInt = (min, max) => parseInt(Math.random() * (max - min) + min);
   let times = 10
   let repetition = 50
   while(times --> 2) {
-    while(repetition --> 10) {
+    while(repetition --> 0) {
       await seedUserWithoutRefs();
       await seddProductWithoutRef();
     }

@@ -23,7 +23,7 @@ const customDebugTime = (unixEpoch) => {
     -- local date from parameter = ${localDateFromParam}
     -- differences of minute between now and paramater = ${differencesMinute}
   `)
-}
+};
 const _sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 const printPromises = (promises) => {
   const status = {
@@ -44,10 +44,11 @@ const printPromises = (promises) => {
   }
 
   return status
-}
+};
 
 class TheManSeeEverything {
   constructor(timeToQuery = 120, defaultTimeBegin = 80) {
+    //defaultTimeBegin useful only in development
     this.defaultTimeBegin = defaultTimeBegin; //utc in seconds scala
     this.timeToQuery = timeToQuery;
     this.actualTime = moment.utc().unix();
@@ -73,7 +74,7 @@ class TheManSeeEverything {
   };
 
   async workEventTwoMinute() {
-      //1 minute in miliseconds
+      //minute in miliseconds
       const seconds = minuteToSeconds(this.defaultTimeBegin)
       //begin time to look
       const beginTime = this.actualTime - seconds
@@ -81,9 +82,7 @@ class TheManSeeEverything {
         $and: [ { "timeToQuery": this.timeToQuery, "updatedAtUnixEpoch": { $lt: beginTime } } ]
       }
       
-      const productResult = await productModel.find(query).limit(50)
-
-      return productResult
+      return await productModel.find(query).limit(50)
   };
 
   async* takeFromDB() {
@@ -120,7 +119,7 @@ async function makeRequest(peopleForDoRequest) {
 async function* mainLoop() {
   //will be at max 50, returning with yield with 10, the function takeFromDB, will limit it...
   const god = new TheManSeeEverything(4, 4)
-  const genTakeFromDB = await god.takeFromDB()
+  const genTakeFromDB = god.takeFromDB()
   let productsForDoRequest = await genTakeFromDB.next()
   
   while(productsForDoRequest.value.length) {
@@ -129,8 +128,8 @@ async function* mainLoop() {
     const result = await god.updateTagUsers(productsForDoRequest.value)
     god.updateActualTime()
     console.log(result)
-    
     productsForDoRequest = await genTakeFromDB.next()
+    
     yield true
   }
 
